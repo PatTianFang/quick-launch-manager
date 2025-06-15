@@ -8,20 +8,22 @@
 
 ## 目录结构
 
-quick-launch-manager/
-├── src/
-│   ├── main.py
-│   ├── tray.py
-│   ├── main_window.py
-│   ├── autostart.py
-│   ├── icon.ico
-│   ├── icon.png
-│   └── shortcuts/
-│       └── manager.py
-├── requirements.txt
-├── README.md
-├── README.en.md
-├── LICENSE
+   ```
+   quick-launch-manager/
+   ├── src/
+   │   ├── main.py
+   │   ├── tray.py
+   │   ├── main_window.py
+   │   ├── autostart.py
+   │   ├── icon.ico
+   │   ├── icon.png
+   │   └── shortcuts/
+   │       └── manager.py
+   ├── requirements.txt
+   ├── README.md
+   ├── README.en.md
+   ├── LICENSE
+   ```
 
 ## 功能特性
 
@@ -37,7 +39,7 @@ quick-launch-manager/
 1. 确保已安装 Python 3.6 或更高版本
 2. 克隆代码库：
    ```bash
-   git clone https://github.com/yourusername/quick-launch-manager.git
+   git clone https://github.com/PatTianFang/quick-launch-manager.git
    ```
 3. 安装依赖：
    ```bash
@@ -48,7 +50,9 @@ quick-launch-manager/
 
 确保在项目根目录
 
-pyinstaller --onefile --windowed --icon=src/icon.ico --add-data "src/icon.png;." --add-data "src/icon.ico;." src/main.py
+   ```
+   pyinstaller --onefile --windowed --icon=src/icon.ico --add-data "src/icon.png;." --add-data "src/icon.ico;." src/main.py
+   ```
 
 ## 使用指南
 
