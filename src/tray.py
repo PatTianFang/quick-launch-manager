@@ -5,7 +5,10 @@ from PyQt5.QtWidgets import QSizePolicy, QWhatsThis  # 添加此导入
 from functools import partial
 import os
 import subprocess
-import sys
+import win32api
+import win32con
+from win32com.client import Dispatch
+from win32com.shell import shell, shellcon
 from main_window import MainWindow
 from autostart import unset_autostart
 from shortcuts.manager import ShortcutManager
@@ -85,32 +88,42 @@ class TrayIcon:
             self.menu.exec_(QtGui.QCursor.pos())
 
     def open_shortcut(self, path):
-        """根据路径类型打开文件或文件夹"""
-        # 如果有正在运行的程序，先结束它
-        if self.current_process and self.current_process.poll() is None:
-            try:
-                self.current_process.terminate()
-                self.current_process.wait(timeout=1)
-            except:
-                try:
-                    self.current_process.kill()
-                except:
-                    pass
-
+        """打开快捷方式指向的文件或文件夹"""
         try:
-            # 检查路径是否存在
             if not os.path.exists(path):
-                QtWidgets.QMessageBox.warning(None, "错误", f"路径不存在：{path}")
+                QtWidgets.QMessageBox.warning(
+                    None,
+                    "错误",
+                    f"路径不存在：{path}"
+                )
                 return
-
+                
             if os.path.isdir(path):
-                # 如果是文件夹，使用 explorer 打开
-                subprocess.run(['explorer', path])
+                # 使用 win32api.ShellExecute 打开文件夹
+                win32api.ShellExecute(
+                    0,          # hwnd
+                    'explore',  # 操作
+                    path,       # 文件/文件夹路径
+                    None,      # 参数
+                    None,      # 工作目录
+                    win32con.SW_SHOWNORMAL  # 显示方式
+                )
             else:
-                # 如果是文件，使用 subprocess.Popen 启动
-                self.current_process = subprocess.Popen(path, shell=True)
+                # 如果是文件，使用 win32api.ShellExecute 打开
+                win32api.ShellExecute(
+                    0,        # hwnd
+                    'open',   # 操作
+                    path,     # 文件路径
+                    None,     # 参数
+                    None,     # 工作目录
+                    win32con.SW_SHOWNORMAL  # 显示方式
+                )
         except Exception as e:
-            QtWidgets.QMessageBox.warning(None, "启动失败", f"无法打开：{path}\n{e}")
+            QtWidgets.QMessageBox.warning(
+                None,
+                "错误",
+                f"无法打开路径：{str(e)}"
+            )
 
     def exit_application(self):
         """退出程序时确保清理所有子进程"""
