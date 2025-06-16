@@ -1,3 +1,27 @@
+# Python 编译文件
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 打包目录
+dist/
+build/
+*.egg-info/
+
+# 开发环境
+.env
+.venv
+env/
+venv/
+ENV/
+
+# IDE 配置
+.vscode/
+.idea/
+
+# 项目特定文件
 Problem.md
-dist
-build
+
+# Windows 系统文件
+Thumbs.db
+.DS_Store
